@@ -1,74 +1,78 @@
-//Step 1: Project Structure
+// Step 1
 console.log("Hello World");
 
-//Step 2: Computers Choise
-function getComputersChoice(){
-    //Generates a random number between 0 and 1
+// Step 2: Gets the computers
+function getComputerChoice() {
     const randomNumber = Math.random();
-    //Returns rock, paper, or scissors based on that random number
-    if (randomNumber < 0.33){
+    if (randomNumber < 0.33) {
         return "rock";
-    }else if (randomNumber < 0.66){
+    } else if (randomNumber < 0.66) {
         return "paper";
-    }else{
+    } else {
         return "scissors";
     }
 }
 
-//Step 3: Humans Choise
-function getHumansChoice(){
-    //Get the input from the user
-    let choice = prompt("Please enter your choice (rock, paper, or scissors):").toLowerCase();
-    // Validate users input
+// Step 3: Gets humans choice 
+function getHumanChoice() {
+    // Prompt the user to enter their choice with "rock" as the default value
+    const choice = prompt("Enter rock, paper, or scissors:", "rock").toLowerCase();
+    
+    // Validate the user input to ensure it's a valid choice
     if (choice === "rock" || choice === "paper" || choice === "scissors") {
         return choice;
-    }else{
-        //In case of invalid input
-        console.log("Your choise was invalid.");
-        return getHumansChoice();
+    } else {
+        console.log("Invalid choice, please enter rock, paper, or scissors.");
+        return getHumanChoice(); // Retry if the input is invalid
     }
 }
 
-//Step 4: Players score variables
+// Step 4: Declares score 
 let humanScore = 0;
 let computerScore = 0;
 
-//Step 5: Single Round
-function playRound(humansChoice, computersChoice){
-    humansChoice = humansChoice.toLowerCase();
-    if (humansChoice === computersChoice) {//Tie
-        console.log(`We have a tie. You both chose ${humansChoice}`);
-    }else if(//Human wins the round
-        (computersChoice === "paper" && humansChoice === "rock") ||
-        (computersChoice === "scissors" && humansChoice === "paper") ||
-        (computersChoice === "rock" && humansChoice === "scissors") 
-    ){
-        computerScore++;
-        console.log(`Opps, you lost... ${computersChoice} beats ${humansChoice}`);
-    }else{ //Computer wins the round
+// Step 5: Plays a single round
+function playRound(humanChoice, computerChoice) {
+    humanChoice = humanChoice.toLowerCase();
+
+    if (humanChoice === computerChoice) {
+        console.log("It's a tie!");
+    } else if (
+        (humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "paper" && computerChoice === "rock") ||
+        (humanChoice === "scissors" && computerChoice === "paper")
+    ) {
+        console.log(`You win! ${humanChoice} beats ${computerChoice}`);
         humanScore++;
-        console.log(`You won!!! ${humansChoice} beats ${computersChoice}`);
-        
+    } else {
+        console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+        computerScore++;
     }
+    console.log(`Score: Human - ${humanScore}, Computer - ${computerScore}`);
 }
 
-//Step 6: Play the Game
-function playGame(){
+// Step 6: Plays the game
+function playGame() {
+    // Reset the scores before starting a new game
     humanScore = 0;
     computerScore = 0;
 
-    for (let i = 0; i < 5; i++) {//play 5 rounds
+    // Play 5 rounds
+    for (let i = 0; i < 5; i++) {
         const humanSelection = getHumanChoice();
         const computerSelection = getComputerChoice();
         playRound(humanSelection, computerSelection);
     }
 
-    if (humanScore = computerScore){
-        console.log(`Score: ${humanScore}, ${computerScore}`);
-        console.log("It's a.");
-    }else if (computerScore > humanScore){
-        console.log("Sorry but you lost...");
-    }else{
-        console.log("YOU WON! CONGRATULATIONS!");
+    // Announce the overall winner
+    if (humanScore > computerScore) {
+        console.log("Congratulations! You won the game!");
+    } else if (computerScore > humanScore) {
+        console.log("Sorry, you lost the game!");
+    } else {
+        console.log("It's a tie game!");
     }
 }
+
+// Extra Step: Starts the game
+playGame();
